@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # set the project name and version
-project(Tutorial VERSION 1.0)
+project(Tracer VERSION 1.0)
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 11)
@@ -15,6 +15,18 @@ configure_file(config.h.in config.h)
 
 
 # add the executable
-add_executable(Tutorial main.cpp)
+add_executable(Tracer 
+    main.cpp
+    src/Event.cpp
+    src/Tracer.cpp
+    src/EventDistributer.cpp
+    src/storage/StorageCreator.cpp
+    src/storage/memory/MemStorage.cpp
+    src/storage/memory/MemStorageCreator.cpp
+    src/parser/ParserCreator.cpp
+    src/parser/http/HttpParser.cpp
+    src/parser/http/HttpParserCreator.cpp
+    src/digester/MonitorDigester.cpp
+)
 
-target_include_directories(Tutorial PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories(Tracer PUBLIC "${PROJECT_BINARY_DIR}")
