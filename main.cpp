@@ -8,15 +8,84 @@
 #include "config.h"
 
 
-/*********************************** ENTITY_CONTAINER START **********************************/
-/*********************************** ENTITY_CONTAINER END **********************************/
+/*********************************** Tracer START **********************************/
+class Tracer {
+
+  private:
+
+    static const uint8_t NETWORK_ID = 0;
+    static const uint8_t ERROR_ID = 1;
+
+  public:
+    void reportNetwork();
+    void reportError();
+    void reportCustom();
+};
+
+/*********************************** Tracer END **********************************/
+
+
+/*********************************** MonitorDigester START **********************************/
+class MonitorDigester {
+
+  public:
+    void addParser(AbstractParser* parser);
+
+    void addDistributer(EventDistributer* distributer);
+
+    void digest(const uint32_t spanId, const std::vector<uint8_t>& data, const uint8_t type);
+
+};
+/*********************************** MonitorDigester END **********************************/
+
+
+/*********************************** EventDistributer START **********************************/
+class EventDistributer {
+
+};
+/*********************************** EventDistributer END **********************************/
 
 /*********************************** STORAGE START **********************************/
+class AbstractStorage {
+
+  public:
+    virtual void write() = 0;
+
+};
+
+class MemStorage : public AbstractStorage {
+
+  public:
+    void write() {
+      std::cout << "Write to MemStorage" << std::endl;
+    }
+
+};
+
+class StorageCreator {
+
+  public:
+    virtual AbstractStorage* factoryMethod() = 0;
+
+    AbstractStorage* createStorage() {
+      return this->factoryMethod();
+    }
+
+};
+
+class MemStorageCreator : public StorageCreator {
+
+  public:
+    AbstractStorage* factoryMethod() override {
+      return new MemStorage{};
+    }
+};
+
+
 /*********************************** STORAGE END **********************************/
 
 /*********************************** METADATA START **********************************/
 class Event {
-
 
 };
 
@@ -64,53 +133,45 @@ class HttpParserCreator : public ParserCreator {
 
 
 
+int main(int argc, char* argv[]) {
+  // dummy data
+  uint32_t spanId = 1;
+  std::vector<uint8_t> data = { 1,2,3,4,5,6,7,8,9 };
 
-void kage(uint32_t span_id, std::vector<uint8_t> data) {
-  ParserCreator* httpParserCreator = new HttpParserCreator{};
+  // initializing. Should be a one time thing when the application starts
+  HttpParserCreator httpParserCreator;
+  EventDistributer* eventDistributer = new EventDistributer{};
 
-  AbstractParser* httpParser = httpParserCreator->createParser();
+  MonitorDigester* monitorDigester = new MonitorDigester{};
+  monitorDigester->addDistributer(eventDistributer);
+  monitorDigester->addParser(httpParserCreator.createParser());
 
-  httpParser->parse();
+  // digest the incoming data
+  monitorDigester->digest(spanId, data, 0);
+
   
 
 
-}
 
 
-int main(int argc, char* argv[])
-{
-  std::vector<uint8_t> data = { 1,2,3,4,5,6,7,8,9 };
+  // if (argc < 2) {
+  //   // report version
+  //   std::cout << argv[0] << " Version " << Tutorial_VERSION_MAJOR << "."
+  //             << Tutorial_VERSION_MINOR << std::endl;
+  //   std::cout << "Usage: " << argv[0] << " number" << std::endl;
+  //   return 1;
+  // }
 
-  kage(1, data);
+  // // convert input to double
+  // const double inputValue = std::stod(argv[1]);
 
+  // // TODO 6: Replace sqrt with mathfunctions::sqrt
 
-
-  // get vector of network data
-  // parse out the span id
-  // save to some virtual storage
-
-
-
-
-
-  if (argc < 2) {
-    // report version
-    std::cout << argv[0] << " Version " << Tutorial_VERSION_MAJOR << "."
-              << Tutorial_VERSION_MINOR << std::endl;
-    std::cout << "Usage: " << argv[0] << " number" << std::endl;
-    return 1;
-  }
-
-  // convert input to double
-  const double inputValue = std::stod(argv[1]);
-
-  // TODO 6: Replace sqrt with mathfunctions::sqrt
-
-  // calculate square root
-  const double outputValue = sqrt(inputValue);
-  std::cout << "The square root of " << inputValue << " is " << outputValue
-            << std::endl;
-  return 0;
+  // // calculate square root
+  // const double outputValue = sqrt(inputValue);
+  // std::cout << "The square root of " << inputValue << " is " << outputValue
+  //           << std::endl;
+  // return 0;
 }         
 
 
