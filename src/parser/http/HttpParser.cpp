@@ -2,6 +2,6 @@
 
 
 std::vector<Event>& HttpParser::parse() {
-      std::vector<Event> bla = {};
-      return bla;
-    }
+    std::vector<Event> bla = {};
+    return bla;
+}

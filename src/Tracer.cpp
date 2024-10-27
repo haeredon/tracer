@@ -12,3 +12,4 @@ void Tracer::reportError() {
 void Tracer::reportCustom() {
     
 }
+
