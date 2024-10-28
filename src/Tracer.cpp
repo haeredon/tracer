@@ -1,6 +1,10 @@
 #include "Tracer.h"
 
 
+void Tracer::initialize() {
+    
+}
+
 void Tracer::reportNetwork() {
     
 }

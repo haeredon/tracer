@@ -10,7 +10,11 @@ class Tracer {
     static const uint8_t NETWORK_ID = 0;
     static const uint8_t ERROR_ID = 1;
 
+    
+
   public:
+
+    void initialize();
     void reportNetwork();
     void reportError();
     void reportCustom();

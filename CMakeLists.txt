@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.25)
 
 # set the project name and version
 project(Tracer VERSION 1.0)
@@ -13,6 +13,7 @@ set(CMAKE_BUILD_TYPE Debug)
 # to the source code
 configure_file(config.h.in config.h)
 
+find_package(PcapPlusPlus REQUIRED)
 
 # add the executable
 add_executable(Tracer 
@@ -27,6 +28,12 @@ add_executable(Tracer
     src/parser/http/HttpParser.cpp
     src/parser/http/HttpParserCreator.cpp
     src/digester/MonitorDigester.cpp
+    src/monitor/network/NetworkMonitor.cpp
+    src/monitor/network/NetworkMonitorCreator.cpp
+    src/monitor/MonitorCreator.h    
+    
 )
 
-target_include_directories(Tracer PUBLIC "${PROJECT_BINARY_DIR}")
+target_include_directories("${PROJECT_NAME}" PUBLIC "${PROJECT_BINARY_DIR}")
+
+target_link_libraries("${PROJECT_NAME}" PUBLIC PcapPlusPlus::Pcap++)
