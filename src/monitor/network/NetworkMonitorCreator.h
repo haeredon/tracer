@@ -12,7 +12,7 @@ class NetworkMonitorCreator : public MonitorCreator<std::string> {
 
   public:
 
-      AbstractMonitor* factoryMethod(std::string);
+      AbstractMonitor* factoryMethod(std::string ipv4);
 
 };
 

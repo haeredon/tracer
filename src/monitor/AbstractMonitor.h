@@ -1,6 +1,7 @@
 #ifndef TRACE_MONITOR_ABSTRACT_MONITOR_H
 #define TRACE_MONITOR_ABSTRACT_MONITOR_H
 
+#include "../EventDistributer.h"
 
 class AbstractMonitor {
 
@@ -11,7 +12,7 @@ class AbstractMonitor {
 
         virtual void addParser() = 0;
 
-        virtual void addDistributer() = 0;
+        virtual void addDistributer(EventDistributer* eventDistributer) = 0;
 
 };
 

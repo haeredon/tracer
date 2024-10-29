@@ -23,12 +23,14 @@ class NetworkMonitor : public AbstractMonitor {
     NetworkMonitor(std::string ipv4);
 
     void start();
+
     void stop();
 
     void addParser();
 
-    void addDistributer();
+    void addDistributer(EventDistributer* eventDistributer);
 
 };
+
 
 #endif // TRACE_MONITOR_NETWORK_NETWORK_MONITOR_H

@@ -5,6 +5,7 @@
 #include "SystemUtils.h"
 
 #include "NetworkMonitor.h"
+#include "../../EventDistributer.h"
 
 NetworkMonitor::NetworkMonitor(std::string ipv4) {
     this->addr = ipv4;
@@ -32,11 +33,11 @@ void NetworkMonitor::stop() {
 }
 
 void NetworkMonitor::addParser() {
-
+    
 }
 
-void NetworkMonitor::addDistributer() {
-    
+void NetworkMonitor::addDistributer(EventDistributer* eventDistributer) {
+
 }
 
 void NetworkMonitor::packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* cookie) {

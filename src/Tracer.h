@@ -2,6 +2,14 @@
 #define TRACE_TRACER_H
 
 #include <cstdint>
+#include <unordered_map>
+
+#include "monitor/AbstractMonitor.h"
+
+enum class MONITOR_TYPE {
+    NETWORK,
+    SYSTEM
+};
 
 class Tracer {
 
@@ -10,7 +18,8 @@ class Tracer {
     static const uint8_t NETWORK_ID = 0;
     static const uint8_t ERROR_ID = 1;
 
-    
+    std::unordered_map<MONITOR_TYPE, AbstractMonitor*> monitorMap;
+
 
   public:
 
