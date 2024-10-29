@@ -1,11 +1,15 @@
 #include <iostream>
 #include <algorithm>
+#include <vector>
+#include <chrono>
+
 #include "stdlib.h"
 #include "PcapLiveDeviceList.h"
 #include "SystemUtils.h"
 
 #include "NetworkMonitor.h"
 #include "../../EventDistributer.h"
+#include "../../Event.h"
 
 NetworkMonitor::NetworkMonitor(std::string ipv4) {
     this->addr = ipv4;
@@ -37,9 +41,13 @@ void NetworkMonitor::addParser() {
 }
 
 void NetworkMonitor::addDistributer(EventDistributer* eventDistributer) {
-
+    this->distributers.push_back(eventDistributer);
 }
 
-void NetworkMonitor::packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* cookie) {
+void NetworkMonitor::packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* self) {
+    NetworkMonitor* monitor = static_cast<NetworkMonitor*>(self);
 
+    for (std::vector<EventDistributer*>::iterator it = monitor->distributers.begin(); it != monitor->distributers.end(); ++it) {
+        (*it)->distribute(Event(packet->getRawData(), std::chrono::system_clock::now()));
+    };    
 }

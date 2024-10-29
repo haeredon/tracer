@@ -16,7 +16,9 @@ class NetworkMonitor : public AbstractMonitor {
 
     pcpp::PcapLiveDevice* captureDevice;
 
-    static void packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* cookie);
+    std::vector<EventDistributer*> distributers;
+
+    static void packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* self);
 
   public:
 

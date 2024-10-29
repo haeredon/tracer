@@ -24,14 +24,9 @@ add_executable(Tracer
     src/storage/StorageCreator.cpp
     src/storage/memory/MemStorage.cpp
     src/storage/memory/MemStorageCreator.cpp
-    src/parser/ParserCreator.cpp
-    src/parser/http/HttpParser.cpp
-    src/parser/http/HttpParserCreator.cpp
-    src/digester/MonitorDigester.cpp
     src/monitor/network/NetworkMonitor.cpp
     src/monitor/network/NetworkMonitorCreator.cpp
-    src/monitor/MonitorCreator.h    
-    
+    src/monitor/MonitorCreator.h        
 )
 
 target_include_directories("${PROJECT_NAME}" PUBLIC "${PROJECT_BINARY_DIR}")
