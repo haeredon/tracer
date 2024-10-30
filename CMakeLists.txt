@@ -7,6 +7,7 @@ project(Tracer VERSION 1.0)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_BUILD_TYPE Debug)
 
 # configure a header file to pass some of the CMake settings

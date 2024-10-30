@@ -1,3 +1,5 @@
+#include <unistd.h>
+
 #include "Tracer.h"
 #include "monitor/AbstractMonitor.h"
 #include "monitor/network/NetworkMonitorCreator.h"
@@ -18,6 +20,10 @@ void Tracer::initialize() {
     AbstractMonitor* networkMonitor = networkMonitorCreator.createMonitor("192.168.0.117");
     networkMonitor->addDistributer(distributer);
     this->monitorMap[MONITOR_TYPE::NETWORK] = networkMonitor;
+
+    networkMonitor->start();
+
+    sleep(10);
 }
 
 void Tracer::reportNetwork() {

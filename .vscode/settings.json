@@ -44,6 +44,10 @@
         "stdexcept": "cpp",
         "streambuf": "cpp",
         "typeinfo": "cpp",
-        "socket.h": "c"
+        "socket.h": "c",
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "ratio": "cpp",
+        "sstream": "cpp"
     }
 }

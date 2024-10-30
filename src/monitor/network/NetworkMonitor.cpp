@@ -45,6 +45,8 @@ void NetworkMonitor::addDistributer(EventDistributer* eventDistributer) {
 }
 
 void NetworkMonitor::packetArrival(pcpp::RawPacket* packet, pcpp::PcapLiveDevice* dev, void* self) {
+    std::cout << "NetworkMonitor::packetArrival()" << std::endl;
+
     NetworkMonitor* monitor = static_cast<NetworkMonitor*>(self);
 
     for (std::vector<EventDistributer*>::iterator it = monitor->distributers.begin(); it != monitor->distributers.end(); ++it) {
