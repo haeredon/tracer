@@ -16,8 +16,10 @@ configure_file(config.h.in config.h)
 
 find_package(PcapPlusPlus REQUIRED)
 
+
+
 # add the executable
-add_executable(Tracer 
+add_executable("${PROJECT_NAME}" 
     main.cpp
     src/Event.cpp
     src/Tracer.cpp
