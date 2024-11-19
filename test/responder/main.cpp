@@ -124,6 +124,11 @@ void sendMessage(int socketDescriptor, IpAddress& address, std::string message) 
     // sending data    
     int ret = send(socketDescriptor, message.data(), message.size(), 0);
     
+    // receiving data
+    char buffer[1024] = { 0 };
+    int receiveSize = recv(socketDescriptor, buffer, sizeof(buffer), 0);
+    std::cout << "Message from server: " << buffer << std::endl;
+
     if(ret == -1) {
         printf("Failed to send data to remote server: %d \n", errno);
         throw;
@@ -137,6 +142,8 @@ void startRequester(RequesterConfig& config) {
     while(true) {        
         IpAddress address = config.getNextRemoteAddress();
         sendMessage(socketDescriptor, address, config.getTag().append(" calling.\n"));
+
+
 
         sleep(config.getTimeBetweenRequests());
     }
@@ -171,17 +178,25 @@ void startReceiver(ReceiverConfig& config) {
     }
 
     while(true) {
+        // Get data from client
         std::cout << "Listening on port " << config.getListeningPort() << std::endl; 
         int clientSocket = accept(socketDescriptor, nullptr, nullptr);
 
         char buffer[1024] = { 0 };
-        recv(clientSocket, buffer, sizeof(buffer), 0);
+        int receiveSize = recv(clientSocket, buffer, sizeof(buffer), 0);
         std::cout << "Message from client: " << buffer << std::endl;
+        
+        // send request to next peer and get a response
+        IpAddress address = config.getNextRemoteAddress();
+        sendMessage(socketDescriptor, address, std::string { buffer, receiveSize });
+        
+        receiveSize = recv(socketDescriptor, buffer, sizeof(buffer), 0);
+        std::cout << "Message from peer: " << buffer << std::endl;
+
+        // send response back to the client and close socket
+        sendMessage(clientSocket, address, std::string { buffer, receiveSize });
 
         close(clientSocket);
-
-        IpAddress address = config.getNextRemoteAddress();
-        sendMessage(socketDescriptor, address, config.getTag().append(" calling.\n"));
     }
 
     close(socketDescriptor);
@@ -213,11 +228,16 @@ std::unordered_map<std::string, std::string> getConfigs(std::string filePath) {
 
 
 RequesterConfig buildRequestConfig(std::unordered_map<std::string, std::string>& configs) {
+    std::string tag = configs.contains("tag") ? configs.at("tag") : "";
+    uint16_t timeBetweenRequests  = configs.contains("timeBetweenRequests") ? stoi(configs.at("timeBetweenRequests")) : 0;
 
 
-
-    return RequesterConfig {"sdf", 3};
-
+    if(tag.size() == 0 || timeBetweenRequests == 0) {
+        std::cout << "Invalid Receiver Configuration" << std::endl;
+        throw;
+    } 
+    
+    return RequesterConfig { tag, timeBetweenRequests };
 }
 
 ReceiverConfig buildReceiverConfig(std::unordered_map<std::string, std::string>& configs) {
