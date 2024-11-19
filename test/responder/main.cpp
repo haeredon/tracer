@@ -183,7 +183,7 @@ void startReceiver(ReceiverConfig& config) {
         int clientSocket = accept(socketDescriptor, nullptr, nullptr);
 
         char buffer[1024] = { 0 };
-        int receiveSize = recv(clientSocket, buffer, sizeof(buffer), 0);
+        uint64_t receiveSize = recv(clientSocket, buffer, sizeof(buffer), 0);
         std::cout << "Message from client: " << buffer << std::endl;
         
         // send request to next peer and get a response
