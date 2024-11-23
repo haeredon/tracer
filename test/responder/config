@@ -1,3 +1,0 @@
-NODE_TYPE = RECEIVER
-tag = test_node
-listeningPort = 8080
