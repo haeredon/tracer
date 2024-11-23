@@ -36,10 +36,6 @@ void NetworkMonitor::stop() {
     this->captureDevice->stopCapture();
 }
 
-void NetworkMonitor::addParser() {
-    
-}
-
 void NetworkMonitor::addDistributer(EventDistributer* eventDistributer) {
     this->distributers.push_back(eventDistributer);
 }
