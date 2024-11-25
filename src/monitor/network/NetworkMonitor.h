@@ -28,8 +28,6 @@ class NetworkMonitor : public AbstractMonitor {
 
     void stop();
 
-    void addParser();
-
     void addDistributer(EventDistributer* eventDistributer);
 
 };
