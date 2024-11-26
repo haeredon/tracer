@@ -8,7 +8,9 @@ target_sources("${PROJECT_NAME}Test"
         main.cpp
 )
 
-target_link_libraries("${PROJECT_NAME}Test" Tracer)
+target_link_libraries("${PROJECT_NAME}Test" 
+    Tracer
+    -lNodeEmulator)
 
 
 install(TARGETS Tracer FILE_SET HEADERS)
