@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <chrono>
 
 #include "Tracer.h"
 #include "monitor/AbstractMonitor.h"
@@ -8,36 +9,36 @@
 #include "storage/memory/MemStorageCreator.h"
 
 
+Tracer::Tracer(uint64_t entityId, EventDistributer& EventDistributer) : 
+    entityId(entityId), eventDistributer(eventDistributer) {
+
+}
 
 
-void Tracer::initialize() { 
-    // factories
-    MemStorageCreator memStorageCreator;
-    NetworkMonitorCreator networkMonitorCreator;
+TraceTag Tracer::getTraceTag() {
+    return TraceTag { entityId, std::chrono::steady_clock::now() };
+}
 
-    // initialize distributers
-    AbstractStorage* memStorage = memStorageCreator.createStorage();
-    EventDistributer* distributer = new EventDistributer(2, 1, memStorage);
+void Tracer::start() {
+    this->event.setStartTime(std::chrono::system_clock::now());
+}
+
+void Tracer::end() {    
+    this->event.setEndTime(std::chrono::system_clock::now());
+    this->distributer.distribute(event);
+
+    // store 
+    //   entityId
+    //   start and endtime
+    //   traceTag
+}
+
+void Tracer::registerIncoming(TraceTag&& traceTag) {
+    this->event.setTag(std::forward<TraceTag>(traceTag));
+
+    // store 
+    //   entityId
+    //   traceTag
+    //   
     
-    // initialize monitors
-    AbstractMonitor* networkMonitor = networkMonitorCreator.createMonitor("192.168.0.117");
-    networkMonitor->addDistributer(distributer);
-    this->monitorMap[MONITOR_TYPE::NETWORK] = networkMonitor;
-
-    networkMonitor->start();
-
-    sleep(10);
 }
-
-void Tracer::reportNetwork() {
-    
-}
-
-void Tracer::reportError() {
-
-}
-
-void Tracer::reportCustom() {
-    
-}
-

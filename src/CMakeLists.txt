@@ -19,8 +19,10 @@ target_sources(${PROJECT_NAME}
         monitor/network/NetworkMonitor.cpp
         monitor/network/NetworkMonitorCreator.cpp
         monitor/MonitorCreator.h        
+        TraceTag.cpp
     PUBLIC FILE_SET HEADERS FILES 
         Tracer.h
+        TraceTag.h
         Event.h
         EventDistributer.h
         monitor/AbstractMonitor.h

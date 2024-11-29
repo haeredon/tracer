@@ -6,20 +6,22 @@
 
 #include <cstdint>
 
+template<class STORAGE_T>
 class EventDistributer {
 
     private:
 
-        uint64_t entityId;
-        uint64_t scaleId;
-
-        AbstractStorage* storage;
+        STORAGE_T& storage;
 
     public:
 
-        EventDistributer(uint64_t entityId, uint64_t scaleId, AbstractStorage* storage);
+        EventDistributer(STORAGE_T& storage) : storage(storage) {
+            
+        }
 
-        void distribute(Event&& event);
+        void distribute(Event&& event) {
+            std::cout << "EventDistributer::distribute()" << std::endl;
+        }
 
 };
 

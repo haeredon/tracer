@@ -4,7 +4,10 @@
 #include <cstdint>
 #include <unordered_map>
 
+
 #include "monitor/AbstractMonitor.h"
+#include "TraceTag.h"
+#include "events/HttpTraceEvent.h"
 
 enum class MONITOR_TYPE {
     NETWORK,
@@ -15,18 +18,26 @@ class Tracer {
 
   private:
 
-    static const uint8_t NETWORK_ID = 0;
-    static const uint8_t ERROR_ID = 1;
+    uint64_t entityId;
 
-    std::unordered_map<MONITOR_TYPE, AbstractMonitor*> monitorMap;
+    EventDistributer& eventDistributer;
 
+    TraceTag&& traceTag;
+
+    HttpTraceEvent event;
 
   public:
 
-    void initialize();
-    void reportNetwork();
-    void reportError();
-    void reportCustom();
+    Tracer(uint64_t entityId, EventDistributer& EventDistributer);
+
+    TraceTag getTraceTag();
+
+    void start();
+
+    void end();
+
+    void registerIncoming(TraceTag&& traceTag);
+
 };
 
 

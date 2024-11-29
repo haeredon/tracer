@@ -9,9 +9,62 @@
 #include <atomic>
 #include <array>
 
+#include "TraceTag.h"
 #include "Tracer.h"
 #include "NodeFactory.h"
 #include "Node.h"
+#include "Hook.h"
+
+class IncomingHook : public Hook {
+
+    private: 
+
+        Tracer tracer;
+
+    public:
+
+        void event(HOOK_TYPE hookType, std::string& data) override {
+            if(hookType == HOOK_TYPE::NETWORK_POST_RECEIVE) {
+                std::cout << "HOOK_TYPE::NETWORK_POST_RECEIVE" << std::endl;
+
+                // extract trace tag
+                uint8_t extractedTag[] = { 1, 2, 3 };
+
+                // register trace tag
+                tracer.registerIncoming(TraceTag { extractedTag, 3});
+
+                tracer.start(); // just for completeness
+                
+                // do something with the incoming package
+
+                tracer.end(); // just for completeness
+            }
+        }
+};
+
+class OutgoingHook : public Hook {
+
+    private:
+
+        Tracer tracer;
+
+    public:
+
+        void event(HOOK_TYPE hookType, std::string& data) override {
+            if(hookType == HOOK_TYPE::NETWORK_PRE_SEND) {
+                std::cout << "HOOK_TYPE::NETWORK_PRE_SEND" << std::endl;
+
+                TraceTag traceTag = tracer.getTraceTag();
+                
+                tracer.start(); // just for completeness
+                
+                data.append(traceTag.toString());
+
+                tracer.end(); // just for completeness
+            }
+        }
+};
+
 
 std::string receiverPropertyFiles[] = {
     "receiver0_middle.properties",
@@ -24,6 +77,10 @@ std::string requesterPropertyFiles[] = {
 };
 
 void run(Node* node) {
+    Tracer tracer;
+    
+    node->addHook(new OutgoingHook());
+    node->addHook(new IncomingHook());
     node->start();
 }
 
