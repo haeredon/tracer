@@ -10,12 +10,13 @@ add_library(${PROJECT_NAME} STATIC)
 
 target_sources(${PROJECT_NAME} 
     PUBLIC
-        Event.cpp
+        events/Event.cpp
+        events/HttpTraceEvent.cpp
         Tracer.cpp
         EventDistributer.cpp
         storage/StorageCreator.cpp
         storage/memory/MemStorage.cpp
-        storage/memory/MemStorageCreator.cpp
+        utility/PredConsQueue.h
         monitor/network/NetworkMonitor.cpp
         monitor/network/NetworkMonitorCreator.cpp
         monitor/MonitorCreator.h        

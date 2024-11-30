@@ -9,14 +9,23 @@ class ProdConsQueue {
 
     private:
 
-        unsigned int = SIZE;
-
         std::atomic<int> readIdx {0};
         std::atomic<int> writeIdx {0};
 
         ITEM_T buffer[SIZE];
 
     public:
+
+          void push(const ITEM_T& item) {
+            int writeIndex = writeIdx.load(std::memory_order_relaxed);
+
+            if((writeIndex + 1) % SIZE != readIdx.load(std::memory_order_acquire)) {
+                buffer[writeIdx] = item;
+                writeIdx.store(++writeIdx % SIZE, std::memory_order_release);
+            } else {
+                throw; // queue full
+            }
+        }
 
         void push(ITEM_T&& item) {
             int writeIndex = writeIdx.load(std::memory_order_relaxed);
@@ -40,11 +49,11 @@ class ProdConsQueue {
             }
         }
 
-        ITEM_T* front() {
+        ITEM_T& front() {
             int readIndex = readIdx.load(std::memory_order_relaxed);
 
             if(readIndex != writeIdx.load(std::memory_order_acquire)) {
-                return &buffer[readIdx];                
+                return buffer[readIdx];                
             } 
             
             return nullptr;            

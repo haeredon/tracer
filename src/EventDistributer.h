@@ -3,8 +3,10 @@
 
 #include "Event.h"
 #include "storage/AbstractStorage.h"
+#include "utility/ProdConsQueue.h"
 
 #include <cstdint>
+#include <vector>
 
 template<class STORAGE_T>
 class EventDistributer {
@@ -13,13 +15,16 @@ class EventDistributer {
 
         STORAGE_T& storage;
 
+        ProdConsQueue<Event*, 256> queue; 
+
     public:
 
         EventDistributer(STORAGE_T& storage) : storage(storage) {
             
         }
 
-        void distribute(Event&& event) {
+        void distribute(Event* event) {
+            queue.push(event);
             std::cout << "EventDistributer::distribute()" << std::endl;
         }
 
