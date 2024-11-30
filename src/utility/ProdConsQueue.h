@@ -21,7 +21,7 @@ class ProdConsQueue {
         void push(ITEM_T&& item) {
             int writeIndex = writeIdx.load(std::memory_order_relaxed);
 
-            if(writeIndex + 1 != readIdx.load(std::memory_order_acquire)) {
+            if((writeIndex + 1) % SIZE != readIdx.load(std::memory_order_acquire)) {
                 buffer[writeIdx] = std::move(item);
                 writeIdx.store(++writeIdx % SIZE, std::memory_order_release);
             } else {
