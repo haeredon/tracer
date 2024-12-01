@@ -9,7 +9,6 @@
 #include <vector>
 #include <thread>
 
-#include "../AbstractStorage.h"
 #include "utility/ProdConsQueue.h"
 
 template <class QUEUE_T>

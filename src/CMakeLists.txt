@@ -11,9 +11,7 @@ add_library(${PROJECT_NAME} STATIC)
 target_sources(${PROJECT_NAME} 
     PUBLIC
         events/Event.cpp
-        events/HttpTraceEvent.cpp
-        storage/StorageCreator.cpp
-        storage/memory/MemStorage.cpp
+        events/HttpTraceEvent.cpp        
         utility/ProdConsQueue.h
         TraceTag.cpp
     PUBLIC FILE_SET HEADERS FILES 
@@ -22,7 +20,6 @@ target_sources(${PROJECT_NAME}
         TraceTag.h
         events/Event.h
         EventDistributer.h
-        storage/AbstractStorage.h
         storage/network/NetworkStorage.h
         utility/ProdConsQueue.h
 )
