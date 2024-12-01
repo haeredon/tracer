@@ -12,7 +12,6 @@ target_sources(${PROJECT_NAME}
     PUBLIC
         events/Event.cpp
         events/HttpTraceEvent.cpp
-        Tracer.cpp
         storage/StorageCreator.cpp
         storage/memory/MemStorage.cpp
         utility/ProdConsQueue.h

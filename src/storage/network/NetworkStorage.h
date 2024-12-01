@@ -27,11 +27,12 @@ private:
 
 
 public:
+
   NetworkStorage() {
     // could also be SOCK_DGRAM for udp
-    this->socketDesriptor = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
+    this->socketDescriptor = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
 
-    if (socketDesriptor == -1) {
+    if (this->socketDescriptor == -1) {
       throw;
     }
 
@@ -62,7 +63,7 @@ public:
     }
   }
 
-  void write(std::string& bytes) {
+  void write(std::string& bytes) override {
 
     if(toSend.size() > 0) {
       
@@ -71,7 +72,7 @@ public:
 
 
 
-    size_t bytesSend = send(socketDescriptor, bytes.data(), bytes.size());
+    size_t bytesSend = send(socketDescriptor, bytes.data(), bytes.size(), 0);
 
     if (bytesSend == -1) {
       throw;

@@ -14,14 +14,19 @@
 #include "NodeFactory.h"
 #include "Node.h"
 #include "Hook.h"
+#include "Agent.h"
 
 class IncomingHook : public Hook {
 
     private: 
 
-        // Tracer tracer;
+        TracerAgent tracer;
 
     public:
+
+        IncomingHook() : tracer(1) {
+
+        }
 
         void event(HOOK_TYPE hookType, std::string& data) override {
             if(hookType == HOOK_TYPE::NETWORK_POST_RECEIVE) {
@@ -46,9 +51,13 @@ class OutgoingHook : public Hook {
 
     private:
 
-        // Tracer tracer;
+        TracerAgent tracer;
 
     public:
+
+        OutgoingHook() : tracer(1) {
+
+        }
 
         void event(HOOK_TYPE hookType, std::string& data) override {
             if(hookType == HOOK_TYPE::NETWORK_PRE_SEND) {
@@ -79,8 +88,8 @@ std::string requesterPropertyFiles[] = {
 void run(Node* node) {
     // Tracer tracer;
     
-    node->addHook(new OutgoingHook());
-    node->addHook(new IncomingHook());
+    node->addHook(new OutgoingHook {});
+    node->addHook(new IncomingHook {});
     node->start();
 }
 

@@ -14,15 +14,17 @@ class EventDistributer {
 
     private:
 
-        STORAGE_T& storage;
+        STORAGE_T* storage;
 
         ProdConsQueue<Event*, 256> queue; 
 
     public:
 
-        EventDistributer(STORAGE_T& storage) : storage(storage) {
-            
+        EventDistributer() {
+            this->storage = new STORAGE_T {};
         }
+                        
+        
 
         void distribute(Event* event) {
             queue.push(event);
