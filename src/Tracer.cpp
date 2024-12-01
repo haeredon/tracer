@@ -6,7 +6,6 @@
 #include "monitor/network/NetworkMonitorCreator.h"
 #include "EventDistributer.h"
 #include "storage/AbstractStorage.h"
-#include "storage/memory/MemStorageCreator.h"
 
 
 Tracer::Tracer(uint64_t entityId, EventDistributer& EventDistributer) : 

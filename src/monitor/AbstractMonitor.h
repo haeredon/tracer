@@ -10,7 +10,7 @@ class AbstractMonitor {
         virtual void start() = 0;
         virtual void stop() = 0;
 
-        virtual void addDistributer(EventDistributer* eventDistributer) = 0;
+        virtual void addDistributer(EventDistributer<int>* eventDistributer) = 0;
 
 };
 

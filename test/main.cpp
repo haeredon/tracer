@@ -19,7 +19,7 @@ class IncomingHook : public Hook {
 
     private: 
 
-        Tracer tracer;
+        // Tracer tracer;
 
     public:
 
@@ -30,14 +30,14 @@ class IncomingHook : public Hook {
                 // extract trace tag
                 uint8_t extractedTag[] = { 1, 2, 3 };
 
-                // register trace tag
-                tracer.registerIncoming(TraceTag { extractedTag, 3});
+                // // register trace tag
+                // tracer.registerIncoming(TraceTag { extractedTag, 3});
 
-                tracer.start(); // just for completeness
+                // tracer.start(); // just for completeness
                 
-                // do something with the incoming package
+                // // do something with the incoming package
 
-                tracer.end(); // just for completeness
+                // tracer.end(); // just for completeness
             }
         }
 };
@@ -46,7 +46,7 @@ class OutgoingHook : public Hook {
 
     private:
 
-        Tracer tracer;
+        // Tracer tracer;
 
     public:
 
@@ -54,13 +54,13 @@ class OutgoingHook : public Hook {
             if(hookType == HOOK_TYPE::NETWORK_PRE_SEND) {
                 std::cout << "HOOK_TYPE::NETWORK_PRE_SEND" << std::endl;
 
-                TraceTag traceTag = tracer.getTraceTag();
+                // TraceTag traceTag = tracer.getTraceTag();
                 
-                tracer.start(); // just for completeness
+                // tracer.start(); // just for completeness
                 
-                data.append(traceTag.toString());
+                // data.append(traceTag.toString());
 
-                tracer.end(); // just for completeness
+                // tracer.end(); // just for completeness
             }
         }
 };
@@ -77,7 +77,7 @@ std::string requesterPropertyFiles[] = {
 };
 
 void run(Node* node) {
-    Tracer tracer;
+    // Tracer tracer;
     
     node->addHook(new OutgoingHook());
     node->addHook(new IncomingHook());

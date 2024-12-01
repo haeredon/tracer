@@ -20,7 +20,7 @@ class Tracer {
 
     uint64_t entityId;
 
-    EventDistributer& eventDistributer;
+    EventDistributer<int>& eventDistributer;
 
     TraceTag&& traceTag;
 
@@ -28,7 +28,7 @@ class Tracer {
 
   public:
 
-    Tracer(uint64_t entityId, EventDistributer& EventDistributer);
+    Tracer(uint64_t entityId, EventDistributer<int>& EventDistributer);
 
     TraceTag getTraceTag();
 

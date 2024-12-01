@@ -10,8 +10,7 @@ class HttpTraceEvent : public Event {
 
     public:
         
-        HttpTraceEvent();
-
+        
         const std::string serialize() override;
 
         void setTag(TraceTag&& traceTag);

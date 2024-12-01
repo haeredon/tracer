@@ -1,7 +1,7 @@
 #ifndef TRACE_EVENT_DISTRIBUTER_H
 #define TRACE_EVENT_DISTRIBUTER_H
 
-#include "Event.h"
+#include "events/Event.h"
 #include "storage/AbstractStorage.h"
 #include "utility/ProdConsQueue.h"
 
