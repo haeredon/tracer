@@ -13,18 +13,16 @@ target_sources(${PROJECT_NAME}
         events/Event.cpp
         events/HttpTraceEvent.cpp
         Tracer.cpp
-        EventDistributer.cpp
         storage/StorageCreator.cpp
         storage/memory/MemStorage.cpp
-        utility/PredConsQueue.h
-        monitor/network/NetworkMonitor.cpp
-        monitor/network/NetworkMonitorCreator.cpp
+        utility/ProdConsQueue.h
         monitor/MonitorCreator.h        
         TraceTag.cpp
     PUBLIC FILE_SET HEADERS FILES 
+        Agent.h
         Tracer.h
         TraceTag.h
-        Event.h
+        events/Event.h
         EventDistributer.h
         monitor/AbstractMonitor.h
         storage/AbstractStorage.h

@@ -3,19 +3,18 @@
 
 #include "Tracer.h"
 #include "monitor/AbstractMonitor.h"
-#include "monitor/network/NetworkMonitorCreator.h"
 #include "EventDistributer.h"
 #include "storage/AbstractStorage.h"
 
 
-Tracer::Tracer(uint64_t entityId, EventDistributer& EventDistributer) : 
-    entityId(entityId), eventDistributer(eventDistributer) {
-
+Tracer::Tracer(uint64_t entityId, EventDistributer<int>& EventDistributer) : 
+    entityId(entityId), eventDistributer(eventDistributer), traceTag(entityId, std::chrono::steady_clock::now()) {
+        
 }
 
 
-TraceTag Tracer::getTraceTag() {
-    return TraceTag { entityId, std::chrono::steady_clock::now() };
+TraceTag& Tracer::getTraceTag() {
+    return traceTag;
 }
 
 void Tracer::start() {
@@ -24,7 +23,7 @@ void Tracer::start() {
 
 void Tracer::end() {    
     this->event.setEndTime(std::chrono::system_clock::now());
-    this->distributer.distribute(event);
+    this->eventDistributer.distribute(&event);
 
     // store 
     //   entityId

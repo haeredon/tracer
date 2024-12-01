@@ -22,7 +22,7 @@ class Tracer {
 
     EventDistributer<int>& eventDistributer;
 
-    TraceTag&& traceTag;
+    TraceTag traceTag;
 
     HttpTraceEvent event;
 
@@ -30,7 +30,7 @@ class Tracer {
 
     Tracer(uint64_t entityId, EventDistributer<int>& EventDistributer);
 
-    TraceTag getTraceTag();
+    TraceTag& getTraceTag();
 
     void start();
 
