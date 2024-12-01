@@ -7,13 +7,13 @@
 #include <arpa/inet.h>
 #include <string>
 #include <vector>
+#include <thread>
 
 #include "../AbstractStorage.h"
+#include "utility/ProdConsQueue.h"
 
-
-template <class aaaa>
-class NetworkStorage : public AbstractStorage
-{
+template <class QUEUE_T>
+class NetworkStorage {
 
 private:
 
@@ -25,18 +25,14 @@ private:
 
   std::vector<std::string> toSend;
 
+  QUEUE_T* queue;
+
+  std::thread worker;
 
 public:
 
   NetworkStorage() {
-    // could also be SOCK_DGRAM for udp
-    this->socketDescriptor = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
-
-    if (this->socketDescriptor == -1) {
-      throw;
-    }
-
-    // need to set SO_KEEPALIVE on socket and handle broken connection
+    
   }
 
   // only used for tcp, not udp
@@ -63,22 +59,27 @@ public:
     }
   }
 
-  void write(std::string& bytes) override {
+  void open() {
+    // could also be SOCK_DGRAM for udp
+    this->socketDescriptor = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
 
-    if(toSend.size() > 0) {
-      
-    }
-
-
-
-
-    size_t bytesSend = send(socketDescriptor, bytes.data(), bytes.size(), 0);
-
-    if (bytesSend == -1) {
+    if (this->socketDescriptor == -1) {
       throw;
-    } else if(bytesSend < bytes.size()) {
-      
     }
+
+    connect();
+
+    worker = std::thread { this->run };
+
+    // need to set SO_KEEPALIVE on socket and handle broken connection
+
+  }
+
+  void run() {
+    auto& ddd = queue->front();
+
+    
+
   }
 
 };

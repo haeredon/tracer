@@ -15,7 +15,6 @@ target_sources(${PROJECT_NAME}
         storage/StorageCreator.cpp
         storage/memory/MemStorage.cpp
         utility/ProdConsQueue.h
-        monitor/MonitorCreator.h        
         TraceTag.cpp
     PUBLIC FILE_SET HEADERS FILES 
         Agent.h
@@ -23,8 +22,9 @@ target_sources(${PROJECT_NAME}
         TraceTag.h
         events/Event.h
         EventDistributer.h
-        monitor/AbstractMonitor.h
         storage/AbstractStorage.h
+        storage/network/NetworkStorage.h
+        utility/ProdConsQueue.h
 )
 
 target_include_directories("${PROJECT_NAME}" PUBLIC "${PROJECT_BINARY_DIR}")

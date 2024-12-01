@@ -9,14 +9,14 @@
 #include <vector>
 #include <iostream>
 
-template<class STORAGE_T>
+template<class QUEUE_T, class STORAGE_T, class EVENT_T, unsigned int QUEUE_SIZE>
 class EventDistributer {
 
     private:
 
         STORAGE_T* storage;
 
-        ProdConsQueue<Event*, 256> queue; 
+        QUEUE_T queue; 
 
     public:
 
@@ -26,7 +26,7 @@ class EventDistributer {
                         
         
 
-        void distribute(Event* event) {
+        void distribute(EVENT_T& event) {
             queue.push(event);
             std::cout << "EventDistributer::distribute()" << std::endl;
         }

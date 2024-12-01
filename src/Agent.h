@@ -35,7 +35,7 @@ class Agent {
 };
 
 
-using TracerAgent = Agent<EventDistributer<NetworkStorage<int>>>;
+using TracerAgent = Agent<EventDistributer<ProdConsQueue<Event*, 256>, NetworkStorage<ProdConsQueue<Event*, 256>>, Event*, 256>>;
 
 
 
